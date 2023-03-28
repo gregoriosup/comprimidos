@@ -6,9 +6,32 @@ fluidPage(theme = shinytheme("cerulean"),
           
           navbarPage("Caracterização de Comprimidos",
                      
+                     tabPanel("Instruções",
+                              
+                              mainPanel(h2("Instruções Gerais"),
+                                        
+                                        p("Aplicativo desenvolvido com o objetivo de compilar as análises
+                                        mais relevantes para a caracterização física de um comprimido não-revestido. 
+                                        "),
+                                        
+                                        p("O projeto de otimização da caracteriazação está em fase de desenvolvimento e manutenção.
+                                          Portanto, sugiro que os resultados sejam revisados ao final das análises."),
+                                        
+                                        p("Os testes foram baseados na Farmacopeia Brasileira 6ª edição. É recomendado sua leitura 
+                                          para melhor entendimento dos resultados."),
+                                        
+                                        p("Atentar-se às unidades de medidas necessárias para cada teste. Para peso médio, utilizar grama 
+                                        (g). Espessura e diâmetro, milímetro (mm). Dureza, newton (N). Friabilidade, porcentagem (%). Desintegração, minutos."),
+                                        
+                                        p("Ao digitar os valores obtidos experimentalmente, usar ponto (.) como separador de decimais."),
+                                        
+                                        h4("Boa caracterização!")
+                                        
+                                        )),
+                     
                      tabPanel("Peso Médio",
                               sidebarPanel(
-                                tags$h3("Peso Médio"),
+                                tags$h3("Peso Médio (g)"),
                                 fluidRow(
                                   column(3, textInput("pm1", "1", "")), 
                                   column(3, textInput("pm2", "2", "")), 
