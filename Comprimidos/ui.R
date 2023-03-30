@@ -1,13 +1,19 @@
 library(shiny)
 library(shinythemes)
 
+
+
 # Define UI for application that draws a histogram
 fluidPage(theme = shinytheme("cerulean"),
+          
+          tags$head(
+            tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
+          ),
           
           navbarPage("Caracterização de Comprimidos",
                      
                      tabPanel("Instruções",
-                              
+#### instruções gerais ####                              
                               mainPanel(h2("Instruções Gerais"),
                                         
                                         p("Aplicativo desenvolvido com o objetivo de compilar as análises
@@ -28,7 +34,7 @@ fluidPage(theme = shinytheme("cerulean"),
                                         h4("Boa caracterização!")
                                         
                                         )),
-                     
+#### peso medio####                     
                      tabPanel("Peso Médio",
                               sidebarPanel(
                                 tags$h3("Peso Médio (g)"),
@@ -71,24 +77,158 @@ fluidPage(theme = shinytheme("cerulean"),
                               
                               mainPanel(
                                 
-                                tags$div(
-                                  textOutput("resultados_pm"),
-                                  style = "font-size: 18px; color: #387295;"),
+                                h3(
+                                  textOutput("resultados_pm")),
                                         
                                 
                                 plotOutput("grafline_pm", height = 500))
                      ),
-                     
-                     tabPanel("Espessura e Diâmetro"),
-                     
-                     tabPanel("Dureza"),
-                     
+#### espessura e diâmetro####                     
+                     tabPanel("Espessura e Diâmetro",
+                              
+                              sidebarPanel(
+                                tags$h3("Espessura (mm)"),
+                                fluidRow(
+                                  column(3, textInput("esp1", "1", "")),
+                                  column(3, textInput("esp2", "2", "")),
+                                  column(3, textInput("esp3", "3", "")),
+                                  column(3, textInput("esp4", "4", ""))
+                                ),
+                                
+                                fluidRow(
+                                  column(3, textInput("esp5", "5", "")),
+                                  column(3, textInput("esp6", "6", "")),
+                                  column(3, textInput("esp7", "7", "")),
+                                  column(3, textInput("esp8", "8", ""))
+                                ),
+                                fluidRow(
+                                  column(3, textInput("esp9", "9", "")),
+                                  column(3, textInput("esp10", "10", "")),
+                                  column(3, textInput("esp11", "11", "")),
+                                  column(3, textInput("esp12", "12", ""))
+                                ),
+                                fluidRow(
+                                  column(3, textInput("esp13", "13", "")),
+                                  column(3, textInput("esp14", "14", "")),
+                                  column(3, textInput("esp15", "15", "")),
+                                  column(3, textInput("esp16", "16", ""))
+                                ),
+                                fluidRow(
+                                  column(3, textInput("esp17", "17", "")),
+                                  column(3, textInput("esp18", "18", "")),
+                                  column(3, textInput("esp19", "19", "")),
+                                  column(3, textInput("esp20", "20", ""))
+                                ),
+                                
+                                actionButton("calcular esp", "Calcular"),
+                                
+                                actionButton("plot_esp", "Gerar Gráfico"), 
+                                
+                                tags$h3("Diâmetro (mm)"),
+                                fluidRow(
+                                  column(3, textInput("diam1", "1", "")),
+                                  column(3, textInput("diam2", "2", "")),
+                                  column(3, textInput("diam3", "3", "")),
+                                  column(3, textInput("diam4", "4", "")),
+                                ),
+                                fluidRow(
+                                  column(3, textInput("diam5", "5", "")),
+                                  column(3, textInput("diam6", "6", "")),
+                                  column(3, textInput("diam7", "7", "")),
+                                  column(3, textInput("diam8", "8", ""))
+                                ),
+                                fluidRow(
+                                  column(3, textInput("diam9", "9", "")),
+                                  column(3, textInput("diam10", "10", "")),
+                                  column(3, textInput("diam11", "11", "")),
+                                  column(3, textInput("diam12", "12", ""))
+                                ),
+                                fluidRow(
+                                  column(3, textInput("diam13", "13", "")),
+                                  column(3, textInput("diam14", "14", "")),
+                                  column(3, textInput("diam15", "15", "")),
+                                  column(3, textInput("diam16", "16", ""))
+                                ),
+                                fluidRow(
+                                  column(3, textInput("diam17", "17", "")),
+                                  column(3, textInput("diam18", "18", "")),
+                                  column(3, textInput("diam19", "19", "")),
+                                  column(3, textInput("diam20", "20", ""))
+                                ),
+                                
+                                actionButton("calular_diam", "Calular"),
+                                
+                                actionButton("plot_diam", "Gerar Gráfico")
+                                
+                              ), #sidebar
+                              
+                              mainPanel(
+                                
+                                tags$h3(
+                                  textOutput("resultado_esp")
+                                ),
+                                
+                                tags$h3(
+                                  textOutput("resultado_diam")
+                                ),
+                                
+                                plotOutput("plot_diam"),
+                                
+                                plotOutput("plot_esp")
+                                
+                              )
+                              
+                              ), #tabpanel
+#### dureza####                     
+                     tabPanel("Dureza",
+                              
+                              sidebarPanel(
+                                
+                                tags$h3(
+                                  "Dureza (N)"
+                                ),
+                                
+                                fluidRow(
+                                  column(6, textInput("dur1", "1", "")),
+                                  column(6, textInput("dur2", "2", ""))
+                                  ),
+                                fluidRow(
+                                  column(6, textInput("dur3", "3", "")),
+                                  column(6, textInput("dur4", "4", ""))
+                                ),
+                                fluidRow(
+                                  column(6, textInput("dur5", "5", "")),
+                                  column(6, textInput("dur6", "6", ""))
+                                ),
+                                fluidRow(
+                                  column(6, textInput("dur7", "7", "")),
+                                  column(6, textInput("dur8", "8", ""))
+                                ),
+                                fluidRow(
+                                  column(6, textInput("dur9", "9", "")),
+                                  column(6, textInput("dur10", "10", ""))
+                                ),
+                                
+                                actionButton("calcular_dur", "Calcular"),
+                                
+                                actionButton("plot_dur","Gerar Gráficos")
+                                
+                              ) #sidebarpanel
+                              
+                              ), #tab panel dureza
+#### firabilidade####                     
                      tabPanel("Friabilidade"),
-                     
+#### desintegração####                     
                      tabPanel("Desintegração"),
+#### resultados gerais####                     
+                     tabPanel("Resultados Gerais"),
                      
-                     tabPanel("Resultados Gerais")
+                     #absolutePanel("Desenvolvido por Guilherme Henrique Gregório
+                      #             github.com/gregoriosup", bottom = 0, fixed = T, right = 10 )
                      
-          )
+          ) #navbarpage
           
-)
+          
+          
+          
+)#fluidpage

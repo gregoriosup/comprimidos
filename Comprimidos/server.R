@@ -30,7 +30,7 @@ function(input, output, session) {
     
     # formata a saida com 4 casas decimais
   
-    saida_pm <- paste0("Resultado: ", format(resultados_pm$media_pm, nsmall = 4), " ± ", 
+    saida_pm <- paste0("Resultado: ", round(resultados_pm$media_pm, 4), " ± ", 
                        round(resultados_pm$sd_pm, 4), " g")
     
     # mostra os resultados no output

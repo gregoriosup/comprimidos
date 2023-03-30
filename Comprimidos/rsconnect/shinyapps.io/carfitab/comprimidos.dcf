@@ -1,0 +1,13 @@
+name: comprimidos
+title:
+username:
+account: carfitab
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8715625
+bundleId: 7026288
+url: https://carfitab.shinyapps.io/comprimidos/
+when: 1680143091.80564
+lastSyncTime: 1680143091.80564
+asMultiple: FALSE
+asStatic: FALSE
