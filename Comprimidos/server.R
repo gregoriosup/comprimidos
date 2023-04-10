@@ -2,9 +2,12 @@ library(shiny)
 library(shinythemes)
 library(ggplot2)
 
-# Define server logic required to draw a histogram
+# Define server logic 
 function(input, output, session) {
+
   
+####PESO MEDIO####
+      
   # função para calcular a media e desvio padrao
   calcular_media_sd_pm <- function(valores_pm) {
     
@@ -30,8 +33,8 @@ function(input, output, session) {
     
     # formata a saida com 4 casas decimais
   
-    saida_pm <- paste0("Resultado: ", round(resultados_pm$media_pm, 4), " ± ", 
-                       round(resultados_pm$sd_pm, 4), " g")
+    saida_pm <- paste0("Peso médio: ", sprintf("%.4f", round(resultados_pm$media_pm, 4)), " ± ", 
+                       sprintf("%.4f", round(resultados_pm$sd_pm, 4)), " g")
     
     # mostra os resultados no output
   
@@ -106,6 +109,132 @@ function(input, output, session) {
 
   })
     
-    
+####DIAMETRO E ESPESSURA####
   
+  calcular_media_sd_diam <- function(valores_diam) {
+  
+    media_diam <- mean(valores_diam)
+    sd_diam <- sd(valores_diam)
+    return(list(media_diam=media_diam, sd_diam=sd_diam))
 }
+
+  calcular_media_sd_esp <- function(valores_esp) {
+    
+    media_esp <- mean(valores_esp)
+    sd_esp <- sd(valores_esp)
+    return(list(media_esp=media_esp, sd_esp=sd_esp))
+  }
+  
+  # evento de clique do botao peso medio
+  observeEvent(input$calcular_diam, {
+    
+    #cria um vetor com os valores de input
+    
+    valores_diam <- numeric(20) # cria um vetor vazio com 20 posições
+    for(i in 1:20){
+      valores_diam[i] <- as.numeric(input[[paste0("diam", i)]]) #loop para preencher os 20 inputs mais rapido
+    }
+    
+    #calcula a media e desvio padrao
+    
+    resultados_diam <- calcular_media_sd_diam(valores_diam)
+    
+    # formata a saida com 4 casas decimais
+    
+    saida_diam <- paste0("Diâmetro médio: ", sprintf("%.2f",round(resultados_diam$media_diam, 2)), " ± ", 
+                       sprintf("%.2f", round(resultados_diam$sd_diam, 2)), " mm")
+    
+    # mostra os resultados no output
+    
+    output$resultados_diam <- renderText(saida_diam)
+    
+  })
+   
+  
+  # evento de clique do botao peso medio
+  observeEvent(input$calcular_esp, {
+    
+    #cria um vetor com os valores de input
+    
+    valores_esp <- numeric(20) # cria um vetor vazio com 20 posições
+    for(i in 1:20){
+      valores_esp[i] <- as.numeric(input[[paste0("esp", i)]]) #loop para preencher os 20 inputs mais rapido
+    }
+    
+    #calcula a media e desvio padrao
+    
+    resultados_esp <- calcular_media_sd_esp(valores_esp)
+    
+    # formata a saida com 4 casas decimais
+    
+    saida_esp <- paste0("Espessura média: ", sprintf("%.2f",round(resultados_esp$media_esp, 2)), " ± ", 
+                         sprintf("%.2f",round(resultados_esp$sd_esp, 2)), " mm")
+    
+    # mostra os resultados no output
+    
+    output$resultados_esp <- renderText(saida_esp)
+    
+  })
+  
+  # evento do botão gerar graficos
+  
+  observeEvent(input$plot_diam, {
+    
+    # criaçao de objeto com os valores inputados
+    valores_diam1 <- numeric(20) # cria um vetor vazio com 20 posições
+    for(i in 1:20){
+      valores_diam1[i] <- as.numeric(input[[paste0("diam", i)]]) #loop para preencher os 20 inputs mais rapido
+    }
+  
+    
+    df_diam <- data.frame(x=c(1:20), valores_diam1)
+    
+    grafico_diam <- ggplot(data = df_diam, aes(x="", y= valores_diam1))+
+      geom_boxplot(width = 0.2)+
+      geom_violin(fill = "#387295", alpha = 0.2)+
+      theme_classic()+
+      labs(x= "", y= "Milímetros")+
+      ggtitle("Variação de diâmetro (mm)")+
+      theme(
+        title = element_text(size = 20, color = "#387295")
+      )+
+      geom_dotplot(binaxis = "y",
+                   stackdir = "center",
+                   dotsize = 0.5,
+                   alpha=0.3)
+    
+    output$plot_diam1 <- renderPlot(grafico_diam)
+  })
+
+  # evento do botão gerar graficos
+  
+  observeEvent(input$plot_esp, {
+    
+    # criaçao de objeto com os valores inputados
+    valores_esp1 <- numeric(20) # cria um vetor vazio com 20 posições
+    for(i in 1:20){
+      valores_esp1[i] <- as.numeric(input[[paste0("esp", i)]]) #loop para preencher os 20 inputs mais rapido
+    }
+    
+    
+    df_esp <- data.frame(x=c(1:20), valores_esp1)
+    
+    grafico_esp <- ggplot(data = df_esp, aes(x="", y= valores_esp1))+
+      geom_boxplot(width = 0.2)+
+      geom_violin(fill = "#387295", alpha = 0.2)+
+      theme_classic()+
+      labs(x= "", y= "Milímetros")+
+      ggtitle("Variação de espessura (mm)")+
+      theme(
+        title = element_text(size = 20, color = "#387295")
+      )+
+      geom_dotplot(binaxis = "y",
+                   stackdir = "center",
+                   dotsize = 0.5,
+                   alpha = 0.3)
+    
+    output$plot_esp1 <- renderPlot(grafico_esp)
+  
+    })
+  
+  }
